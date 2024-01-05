@@ -1,0 +1,150 @@
+\section{Implementering}
+Implementeringen et minimaxtræet med en heustik baseret på captures og positioner. 
+Det er udviklet til at virke med spilmodulerne \texttt{board.py} og \texttt{move.py} som repræsenterer brættet og den tilhørende
+funktionalitet samt datatypen for et træk.
+I dette kapitel redegører jeg for modulet \texttt{minimax.py}.
+
+\subsection{Minimaxtræ}
+Minimaxtræet implementeres ved brug af to definerede datatyper \texttt{Node} og \texttt{Tree}.
+Disse danner en dedikeret datastruktur til at håndtere spiltræet. I dette afsnit uddyber jeg
+valget af funktioner og felter.
+
+\newpage
+\subsubsection{Node}
+Datatypen \texttt{Node} repræsentere en tilstand i spillet. Det betyder at den
+skal indeholde brikkernes positioner og alle spilleres mulige træk. Derudover skal
+den have en reference til dens \textit{parent node} som er tilstanden der førte dertil. Samtidig skal
+den også selv være \textit{parent node} til alle mulige tilstande den selv føre til givet spilleres
+muligheder for at rykke sine brikker. De tilstande den føre til kaldes \textit{child nodes}.\\
+\\
+Datatypen er implementeret som en class i python. 
+\bigbreak
+\texttt{Node} har følgende felter:
+\begin{itemize}
+    \item \texttt{board}\\
+    Brættets der indeholer brikkernes positioner implementeret i \texttt{board.py}.
+    \item \texttt{parent}\\
+    En reference til dens \textit{parent node}.
+    \item \texttt{parent\_move}\\
+    Fjendens træk der førte til tilstanden implementeret i \texttt{move.py}.
+    \item \texttt{moves}\\
+    Liste med træk der må foretages fra tilstanden.
+    \item \texttt{child\_nodes}\\
+    Liste med referencer til de næste tilstande.
+    \item \texttt{maximaxing}\\
+    Boolsk værdi der indeholder information hvis' spiller tilstandens tur tilhører. True for den spillende spillers tur.
+    \item \texttt{value}\\
+    Integer der indeholder tilstandes værdi for spilleren. Jo højere, jo bedre.
+    \bigbreak
+    Og tilhørende funktioner:
+    \item \texttt{make\_node(board: Board, parent\_move: Move=(0,0), parent: Node=None, maximaxing: bool=True, value: int=None) -> Node}\\
+    Returnere en \texttt{Node} med default værdier for rodnoden.
+    \item \texttt{evaluate\_node(node: Node) -> int} \\
+    Vurderer fordelagtigheden af en tilstand for den spillende spiller baseret på det fjendes sidste træk. Jo lavere, jo bedre.
+    Da vi ønsker at minimere fjendes positive udfald.
+    \item \texttt{expand\_node(node: Node) -> None}\\
+    Tilføjer alle mulige permutationer af tilstanden til \texttt{child\_nodes} som \texttt{moves} føre til.
+    \item \texttt{node\_moves(board: Board) -> list[Move]}\\
+    Retunere træk der er captures blandt mulige træk. Hvis de ikke findes retunere den alle mulige træk.
+    \item \texttt{\_next\_move(node: Node) -> Move}\\
+    Retunere trækket der føre tilstanden fra roden mod \texttt{node}.
+    \bigbreak
+    Hjælpefunktionerne:
+    \item \texttt{\_is\_capturing(move: Move) -> bool}\\
+    Retunere en boolsk værdi om et træk er en capture.
+    \item \texttt{\_is\_cornering(move: Move) -> bool}\\
+    Retunere en boolsk værdi om et træk er til et hjørne.
+\end{itemize}
+
+\newpage
+\subsubsection{Tree}
+Datatypen \texttt{Tree} repræsenterer spiltræet som starter ved roden og ender i \textit{bladende}.
+\textit{Bladene} er alle mulige tilstande et bestemt antal træk fra den nuværende tilstand svarende til
+den valgte dybde.
+\\
+\\
+Datatypen er også implementeret som en class i python. Alle tilstande bruger instances af \texttt{Node}.
+\bigbreak
+\texttt{Tree} har følgende felter:
+\begin{itemize}
+    \item \texttt{root}\\
+    Reference til den node der repræsentere spillets nuværende tilstand.
+    \item \texttt{leafes}\\
+    Liste med bladene.
+    \bigbreak
+    Og tilhørende funktioner:
+    \item \texttt{make\_tree(board: Board, height: int) -> Tree}\\
+    Returnere et \texttt{Tree} med dybden \texttt{height}.
+    \item \texttt{contruct\_tree(node: Node, height: int, tree: Tree, acc: int=0) -> None}\\
+    Laver træet og vurdere bladene baseret på heustikken. Bladene tilføjes til \texttt{tree.leafes}.
+    \item \texttt{find\_max(tree) -> Node}\\
+    Retunere bladet med den største værdi.
+\end{itemize}
+
+\subsection{Algoritme}
+Implementationen af minimax algoritmen bruger en kombination af programmeringsteknikker til at opnå dette.
+Træet konstrueres i funktionen \texttt{contruct\_tree} rekursivt for for hver node og dens \textit{child nodes}
+og bivirkninger tilføjer bladene til træet i \texttt{leafes}. Undervejs akkumeleres værdierne af 
+alle nodes langs stien fra \textit{roden} til \textit{bladet} hvor den tildeles.\\
+\\
+\texttt{expand\_node} tilføjer iterativt de næste tilstande til en parent for træk tilstanden
+tillader. Hvert træk simuleres på en kopi af brættet, hvorefter det nye bræt, trækket og parent noden
+selv danner de nye tilstande som tilstanden føre til. Max og min nodes bestemmes også her -- child nodes
+er det modsatte af deres parent.\\
+\\
+\texttt{node\_moves} sortere i de mulige træk. Det giver færre forgreninger hvilket betyder færre rekursive kald.
+Derudover motivere det også autospilleren til at capture hvilket igen simplificere evalueringsfunktionen.
+Ulempen er at der er tilfælde hvor angreb ikke er den mest optimale taktik.\\
+\\
+\texttt{find\_max} bruger reduce og finder bladet med den største værdi. Stien fra bladet til
+roden følges rekursivt af \texttt{\_next\_move} som returnere trækket fra roden der har en sti
+mod bladet.
+
+\subsection{Heustik}
+
+
+% \subsubsection{Generelt om inputtet}
+% Input til programmet består af tal der hører til besteme valg vist i terminalen. 
+% Denne beslutning er taget for at minimere muligheden for indstastningsfejl
+% og simplificere interaktionen for brugeren.
+% Kort sagt bliver brugeren præsentereret for nogle valg og vælger ved 
+% at indtaste det tal der hører til valget.
+
+% \subsubsection{Generelt om outputtet}
+% Output til brugeren vises formateret i terminalen. Det er altsammen indrykket en tab
+% for at skabe er 'polstret' indtryk af brættet. Brættet samt den nuværende spiller 
+% vises på skærmen inden hver tur, hvilket sikre at en opdateret version vises og
+% at man kan se hvem der har tur. Efter hver tur vises både spiller og træk, og om det er
+% en person eller computeren der har rykket.
+% \subsubsection{Tilstande}
+% Brugeren får valget mellem fem muligheder i menuen, de fire måder to farver kan 
+% kombineres med to spillere, samt en mulighed for at afbryde programmet.
+% \newline
+% Menuen vises ved at kalde \texttt{print\_menu}, hvorefter \texttt{get\_mode} kaldes som retunere informationen til programmet.
+% Dette valg har betydning for programmets kontrol flow i og med vi skal have input fra spilleren.
+% Denne information gemmes i variablen \texttt{game\_mode} og kan ændres undervejs.
+
+% \subsubsection{Tur}
+% Under spillet skal programmet spørge spilleren om at specificere sit træk, ellers skal computeren
+% vælge et træk. 
+% Dette opnås baseret på værdien i \texttt{game\_mode} i. Hjælpefunktionen \texttt{\_ai\_plays}
+% er vedhæftet i Bilag \ref{code:kildekode}.
+% \bigbreak
+% Programmet spørger først spilleren om at specificere sit træk, eller ændre spillets tilstand:
+% \begin{itemize}
+%     \item Hvis man vælger at specifiere trækket, vises mulige træk, hvorefter \texttt{get\_move} kaldes.
+%     \item Hvis man vælger at ændre tilstanden, vises menuen, hvorefter \texttt{get\_mode} kaldes.
+% \end{itemize}
+% Når det er computerens tur, bruges funktionen \texttt{next\_move} fra interfacet. Brættet opdateres hver gang
+% ved at benytte \texttt{move}.
+
+% \subsubsection{Visning af brættet}
+% Brættet vises vha. af \texttt{board\_list} der konstruere en liste med
+% 25 elementer hvor hver plads svare til den korresponderende plads på brættet. Her 
+% tages højde for at listen er 0-indekseret.
+% Dette valg simplificere funktionen \texttt{print\_board} som viser brættet i terminalen.
+% Hjælpefunktionen \texttt{\_board\_list} er vedhæftet i Bilag \ref{code:kildekode}.
+
+% \subsubsection{Slut spil}
+% Spillet bryder ud af game loopen, når spillet er slut eller tilstanden er 0. Dvs. når \texttt{is\_game\_over} returnere \texttt{False}
+% eller brugeren vælger at afbryde.

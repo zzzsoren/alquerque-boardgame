@@ -1,0 +1,36 @@
+\section{Indledning}
+Projektets formål i denne del er at udvikle et autospillermodul der kan benyttes af spilmodulet \texttt{alquerquer.py} 
+udvilket i første fase. I det følgende kapitel fastlægges projektets formål og problemformulering,
+som danner grundlaget for projektet. Rapporten afspejler og dokumenterer det udførte projektarbejde på 1. semester for 
+projektets tredje fase i kurset DM574 "Introduktion til programmering".
+
+\subsection{Problemformulering}
+Formålet med projektet er at undersøge, hvordan en autospiller til spilletmodulet \texttt{alquerque.py} kan implementeres
+ved brug af minimax algoritmen. Løsningen skal benytte teknikker fra pensum til formålet.
+
+\subsection{Kravspecifikation}
+Overordnet så skal modulet minimax indeholde en metode som retunere det bedste træk for næste spiller: 
+\texttt{next\_move(b: Board, depth: int) -> Move}. \\
+\\
+Spiltræet som skal repræsentere spillets mulige tilstande konstureres i to trin.
+\bigbreak
+Trin 1: Minimaxtræet
+\begin{itemize}
+    \item Hver node er en tilstand af spillet.
+    \item En dybde der begrænser antal træk man vil analysere.
+    \item Hver node \texttt{n} er parent til nodes der er spillets tilstand efter mulige træk fra \texttt{n}.
+\end{itemize}
+\bigbreak
+Trin 2: Heustikken
+\begin{itemize}
+    \item En node er enten max- eller minnodes. Maxnodes er tilstande med spillerens tur.
+    \item Alle nodes får tildelt en værdi på baggrund af om det er max- eller minnodes.
+    \item Alle træets blade vurderes på baggrund af heustikken.
+    \item Rodnoden er en maxnode.
+    \item Værdien af en maxnode er værdien af bladet med den højeste værdi.
+\end{itemize}
+
+\subsection{Projektafgrænsning}
+Projektet er ikke udviklet til et slutprodukt. Der vil være plads til forbedringer og optimeringer.
+Hovedsageligt handler projektet om at gøre brug af de teknikker fra stoffet vi har haft med at gøre.
+Autospilleren lavet men ikke begrænset til projektets implementering af Alquerque.
