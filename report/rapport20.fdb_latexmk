@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1704434288 "c:/Users/soren/OneDrive/datalogi-bachelor/project3/report/rapport20.tex" "rapport20.pdf" "rapport20" 1704434289 0
+["pdflatex"] 1704471446 "c:/Users/soren/OneDrive/datalogi-bachelor/project3/report/rapport20.tex" "rapport20.pdf" "rapport20" 1704471447 0
   "C:/Users/soren/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1702562736 172039 0071084b471df76843be4ce2130e38e4 ""
   "C:/Users/soren/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1000.pk" 1702495569 25420 62a78223284c52f9619308494df46339 ""
   "C:/Users/soren/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1200.pk" 1702495565 31952 8a2c56f8956e0d0ce1878d9168b5843c ""
@@ -31,6 +31,9 @@
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msbm10.tfm" 1233951854 908 2921f8a10601f252058503cc6570e581 ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1233951854 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1233951854 940 228d6584342e91276bf566bcf9716b83 ""
+  "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
+  "C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/generic/babel/babel.sty" 1698253080 148310 bccf2f2d5a7218b4605df4249e1ce161 ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/generic/babel/locale/da/babel-da.ini" 1698253080 3908 284c52a734318a14976c6ed62872468c ""
@@ -69,13 +72,13 @@
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstlang1.sty" 1679057124 205154 31132370016e8c97e49bc3862419679b ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.sty" 1679057124 77021 d05e9115c67855816136d82929db8892 ""
   "C:/Users/soren/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "appendix.tex" 1704434078 4543 b0aa38d6ebd997ffb478c758d33b6b9d ""
-  "c:/Users/soren/OneDrive/datalogi-bachelor/project3/report/rapport20.tex" 1704434287 2743 2f3b0959ab910b626403435942cd3896 ""
-  "implementering.tex" 1704433195 8437 33aea3645c29ee895eb3a46a557fc947 ""
-  "indledning.tex" 1704408409 2028 dc333cef00bead1d2f94c6c0d9c20b00 ""
-  "konklussion.tex" 1704402326 1540 c801dd5ab83baa75a0acc271bc969872 ""
-  "rapport20.aux" 1704434288 1849 b6ed861fd59886f8bc3897eb3da9ee1f "pdflatex"
-  "rapport20.toc" 1704434288 770 1d6bc0a6185cd9ab08de6570f14f3444 "pdflatex"
+  "appendix.tex" 1704467731 3999 aa1b55478c7530023b70b0a9ad24118f ""
+  "c:/Users/soren/OneDrive/datalogi-bachelor/project3/report/rapport20.tex" 1704471214 2414 510de91b988cdb7211c272824bd09272 ""
+  "implementering.tex" 1704471445 6982 7b1a79cab2eb9a4dfbe757006c4a9b5e ""
+  "indledning.tex" 1704468114 2042 5575e83f7ba2c609991781225605c65e ""
+  "konklussion.tex" 1704471277 950 fde56ccfe8dd2070c791339988ffbb1a ""
+  "rapport20.aux" 1704471447 2027 44d41ea49e2614c9e8c560d3bae09216 "pdflatex"
+  "rapport20.toc" 1704471447 900 5c2e821ddd116aa05aff841cabe28d34 "pdflatex"
   (generated)
   "rapport20.aux"
   "rapport20.log"

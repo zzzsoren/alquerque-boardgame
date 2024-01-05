@@ -10,7 +10,7 @@ def next_move(b: Board, n: int = 3) -> Move:
 @dataclass
 class Node:
     board: Board
-    parent: None # Node
+    parent: None         # Node
     parent_move: Move
     moves: list[Move]
     child_nodes: list    # list[Node]
@@ -19,7 +19,7 @@ class Node:
 
 def make_node(board: Board,
               parent: Node=None,
-              parent_move: Move=(0, 0),
+              parent_move: Move=(0, 0), # har betydning for evalueringsfunktionen
               maximizing: bool=True,
               value: int=None) -> Node: 
     """Returns a node representing the state of the game."""
@@ -28,10 +28,11 @@ def make_node(board: Board,
 def node_moves(board: Board) -> list[Move]:
     """Returns the legal capturing moves if any otherwise returns the legal moves."""
     moves = legal_moves(board)
-    return [m for m in moves if 6 < abs(m[0] - m[1]) or 3 > abs(m[0] - m[1])] or moves
+    captures = [m for m in moves if 6 < abs(m[0] - m[1]) or 3 > abs(m[0] - m[1])]
+    return captures or moves
 
 def expand_node(node: Node) -> None:
-    """Adds possible state permutations to a state"""
+    """Adds possible state permutations to a state."""
     for m in node.moves:    
         new_board = copy(node.board)
         move(m, new_board)
@@ -39,32 +40,18 @@ def expand_node(node: Node) -> None:
 
 def evaluate_node(node: Node) -> int:
     """Evaluates the how positive a state is based on the previous move (the enemy move)."""
-    if _is_cornering(node.parent_move):
-        cornered = 0
-    else:
-        cornered = 0
-    if _is_capturing(node.parent_move):
-        captured = 7
-    else:
-        captured = 5
-    
     if node.child_nodes == []:
+        # Evt win value
         return 0
     elif node.maximizing:
         # Fjendens captures er skidt for spilleren
-        # Fjendes hjørne positioner er generelt skidt for spilleren
-        return - cornered - captured
+        return 0 -_distance(node.parent_move)
     else:
-        return cornered + captured
+        return  _distance(node.parent_move)
 
-def _is_capturing(move: Move) -> bool:
-    """Determines if a move is a capturing move."""
-    return abs(move[0] - move[1]) >= 8 or abs(move[0] - move[0]) == 2
-
-def _is_cornering(move: Move) -> bool:
-    """Determines if a move is a move to a corner."""
-    return (3 < abs(move[0] - move[1]) < 7 and 
-            move[1] == 1 or move[1] == 5 or move[1] == 21 or move[1] == 25)
+def _distance(move: Move) -> int:
+    """Returns the absolute distance of a move."""
+    return  abs(move[0] - move[1])
 
 @dataclass
 class Tree:
@@ -93,7 +80,6 @@ def find_max(tree) -> Node:
     return reduce(lambda x,y: x if x.value > y.value else y, tree.leafes)
 
 def _next_move(leaf: Node) -> Move:
-    # Hvis den næst sidste er roden,
     if leaf.parent.parent_move == (0, 0):
         return leaf.parent_move
     else:

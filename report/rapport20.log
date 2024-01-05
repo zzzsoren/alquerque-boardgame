@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.13)  5 JAN 2024 06:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.13)  5 JAN 2024 17:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -322,63 +322,81 @@ Overfull \hbox (9.64415pt too wide) in paragraph at lines 40--42
 []\T1/cmtt/m/n/10 make_node(board: Board, parent_move: Move=(0,0), parent: Node=None, maximaxing:
  []
 
-[6] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 61--67
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 58--65
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--102
+Underfull \hbox (badness 10000) in paragraph at lines 83--100
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--102
+Underfull \hbox (badness 10000) in paragraph at lines 83--100
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--102
+Underfull \hbox (badness 10000) in paragraph at lines 83--100
 
  []
 
-)
 
-LaTeX Warning: Reference `code:kildekode' on page 8 undefined on input line 80.
+Underfull \hbox (badness 10000) in paragraph at lines 102--112
 
-[8] [9] (konklussion.tex
-Overfull \hbox (27.77504pt too wide) in paragraph at lines 1--6
-[]\T1/cmr/m/n/10 sectionKonklussion I den-ne rap-port har jeg un-der-søgt og re-de-gjordt for hvor-dan mo-du-let \T1/cmtt/m/n/10 alquerque.py
  []
 
-) [10] (appendix.tex (C:\Users\soren\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--112
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--112
+
+ []
+
+[7]) [8] (konklussion.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 2--84
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--84
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--84
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--84
+
+ []
+
+[9] (appendix.tex (C:\Users\soren\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) [11] [12
-
-]) [13
-
-] (rapport20.aux)
+) [10]) [11] (rapport20.aux)
  ***********
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-11-01>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 7898 strings out of 474592
- 121623 string characters out of 5745798
- 2311533 words of memory out of 5000000
- 30007 multiletter control sequences out of 15000+600000
+ 7891 strings out of 474592
+ 121511 string characters out of 5745798
+ 2298533 words of memory out of 5000000
+ 30000 multiletter control sequences out of 15000+600000
  567567 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,5n,65p,543b,1344s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk>
-Output written on rapport20.pdf (14 pages, 124318 bytes).
+ 57i,5n,65p,539b,1344s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\soren\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/soren/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on rapport20.pdf (12 pages, 150110 bytes).
 PDF statistics:
- 393 PDF objects out of 1000 (max. 8388607)
+ 404 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

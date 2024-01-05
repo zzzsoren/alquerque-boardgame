@@ -17,7 +17,7 @@ den have en reference til dens \textit{parent node} som er tilstanden der førte
 den også selv være \textit{parent node} til alle mulige tilstande den selv føre til givet spilleres
 muligheder for at rykke sine brikker. De tilstande den føre til kaldes \textit{child nodes}.\\
 \\
-Datatypen er implementeret som en class i python. 
+Datatypen er implementeret som en class i python og kan ses i Bilag \ref{code:node}
 \bigbreak
 \texttt{Node} har følgende felter:
 \begin{itemize}
@@ -50,20 +50,18 @@ Datatypen er implementeret som en class i python.
     Retunere trækket der føre tilstanden fra roden mod \texttt{node}.
     \bigbreak
     Hjælpefunktionerne:
-    \item \texttt{\_is\_capturing(move: Move) -> bool}\\
-    Retunere en boolsk værdi om et træk er en capture.
-    \item \texttt{\_is\_cornering(move: Move) -> bool}\\
-    Retunere en boolsk værdi om et træk er til et hjørne.
+    \item \texttt{\_distance(move: Move) -> int}\\
+    Returnere et træks absolutte afstand.
 \end{itemize}
 
-\newpage
 \subsubsection{Tree}
-Datatypen \texttt{Tree} repræsenterer spiltræet som starter ved roden og ender i \textit{bladende}.
+Datatypen \texttt{Tree} repræsenterer spiltræet som starter ved \textit{roden} og ender i \textit{bladende}.
 \textit{Bladene} er alle mulige tilstande et bestemt antal træk fra den nuværende tilstand svarende til
 den valgte dybde.
 \\
 \\
-Datatypen er også implementeret som en class i python. Alle tilstande bruger instances af \texttt{Node}.
+Datatypen er også implementeret som en class i python og kan ses i Bilag \ref{code:tree}.
+Alle tilstande bruger instances af \texttt{Node}.
 \bigbreak
 \texttt{Tree} har følgende felter:
 \begin{itemize}
@@ -83,68 +81,43 @@ Datatypen er også implementeret som en class i python. Alle tilstande bruger in
 
 \subsection{Algoritme}
 Implementationen af minimax algoritmen bruger en kombination af programmeringsteknikker til at opnå dette.
-Træet konstrueres i funktionen \texttt{contruct\_tree} rekursivt for for hver node og dens \textit{child nodes}
-og bivirkninger tilføjer bladene til træet i \texttt{leafes}. Undervejs akkumeleres værdierne af 
-alle nodes langs stien fra \textit{roden} til \textit{bladet} hvor den tildeles.\\
-\\
-\texttt{expand\_node} tilføjer iterativt de næste tilstande til en parent for træk tilstanden
-tillader. Hvert træk simuleres på en kopi af brættet, hvorefter det nye bræt, trækket og parent noden
-selv danner de nye tilstande som tilstanden føre til. Max og min nodes bestemmes også her -- child nodes
-er det modsatte af deres parent.\\
+Træet konstrueres i funktionen \texttt{contruct\_tree} rekursivt for for hver \textit{node} og dens \textit{child nodes}. Undervejs akkumeleres værdierne af 
+alle nodes langs stien fra \textit{roden} til \textit{bladet} hvor den tildeles. Her bruges også
+bruges bivirkninger til at tilføje bladene til træet i \texttt{leafes}\\
 \\
 \texttt{node\_moves} sortere i de mulige træk. Det giver færre forgreninger hvilket betyder færre rekursive kald.
-Derudover motivere det også autospilleren til at capture hvilket igen simplificere evalueringsfunktionen.
+Derudover tvinger det også autospilleren til at capture hvilket igen simplificere evalueringsfunktionen.
 Ulempen er at der er tilfælde hvor angreb ikke er den mest optimale taktik.\\
+\\
+\texttt{expand\_node} tilføjer iterativt de næste tilstande til en parent for alle træk tilstanden
+tillader (\textit{undtagen de frasorterede}). Hvert træk simuleres på en kopi af brættet, hvorefter det nye bræt, trækket og parent noden
+selv danner de nye tilstande som tilstanden føre til. Max og min nodes bestemmes også her -- child nodes
+er det modsatte af deres parent.\\
 \\
 \texttt{find\_max} bruger reduce og finder bladet med den største værdi. Stien fra bladet til
 roden følges rekursivt af \texttt{\_next\_move} som returnere trækket fra roden der har en sti
 mod bladet.
 
-\subsection{Heustik}
+\subsection{Køretider}
+Evalueringsfunktionen \texttt{evaluate\_node} har en køretid på $\mathcal{O}(1)$.
+Det er bevist besluttet at benytte bevægede afstande fremfor antallet af hvide og sorte brikker.\\
+\\
+\texttt{expand\_node} har en køretid på $\mathcal{O}(n)$. Vi simulere et træk for
+alle mulige træk.\\
+\\
+\texttt{find\_max} har en køretid på $\mathcal{O}(n)$ Dette kunne forbedres ved at have en sorteret liste.\\
+\\
+Køretiden af \texttt{contruct\_tree} er polynomisk og afhænger af antallet af mulige træk for de
+enkelte tilstande. Køretiden stiger voldsomt når en tilstand har mange permutationer.
 
-
-% \subsubsection{Generelt om inputtet}
-% Input til programmet består af tal der hører til besteme valg vist i terminalen. 
-% Denne beslutning er taget for at minimere muligheden for indstastningsfejl
-% og simplificere interaktionen for brugeren.
-% Kort sagt bliver brugeren præsentereret for nogle valg og vælger ved 
-% at indtaste det tal der hører til valget.
-
-% \subsubsection{Generelt om outputtet}
-% Output til brugeren vises formateret i terminalen. Det er altsammen indrykket en tab
-% for at skabe er 'polstret' indtryk af brættet. Brættet samt den nuværende spiller 
-% vises på skærmen inden hver tur, hvilket sikre at en opdateret version vises og
-% at man kan se hvem der har tur. Efter hver tur vises både spiller og træk, og om det er
-% en person eller computeren der har rykket.
-% \subsubsection{Tilstande}
-% Brugeren får valget mellem fem muligheder i menuen, de fire måder to farver kan 
-% kombineres med to spillere, samt en mulighed for at afbryde programmet.
-% \newline
-% Menuen vises ved at kalde \texttt{print\_menu}, hvorefter \texttt{get\_mode} kaldes som retunere informationen til programmet.
-% Dette valg har betydning for programmets kontrol flow i og med vi skal have input fra spilleren.
-% Denne information gemmes i variablen \texttt{game\_mode} og kan ændres undervejs.
-
-% \subsubsection{Tur}
-% Under spillet skal programmet spørge spilleren om at specificere sit træk, ellers skal computeren
-% vælge et træk. 
-% Dette opnås baseret på værdien i \texttt{game\_mode} i. Hjælpefunktionen \texttt{\_ai\_plays}
-% er vedhæftet i Bilag \ref{code:kildekode}.
-% \bigbreak
-% Programmet spørger først spilleren om at specificere sit træk, eller ændre spillets tilstand:
-% \begin{itemize}
-%     \item Hvis man vælger at specifiere trækket, vises mulige træk, hvorefter \texttt{get\_move} kaldes.
-%     \item Hvis man vælger at ændre tilstanden, vises menuen, hvorefter \texttt{get\_mode} kaldes.
-% \end{itemize}
-% Når det er computerens tur, bruges funktionen \texttt{next\_move} fra interfacet. Brættet opdateres hver gang
-% ved at benytte \texttt{move}.
-
-% \subsubsection{Visning af brættet}
-% Brættet vises vha. af \texttt{board\_list} der konstruere en liste med
-% 25 elementer hvor hver plads svare til den korresponderende plads på brættet. Her 
-% tages højde for at listen er 0-indekseret.
-% Dette valg simplificere funktionen \texttt{print\_board} som viser brættet i terminalen.
-% Hjælpefunktionen \texttt{\_board\_list} er vedhæftet i Bilag \ref{code:kildekode}.
-
-% \subsubsection{Slut spil}
-% Spillet bryder ud af game loopen, når spillet er slut eller tilstanden er 0. Dvs. når \texttt{is\_game\_over} returnere \texttt{False}
-% eller brugeren vælger at afbryde.
+\subsection{Forbedringer}
+Der er altid plads til forbedringer. Her er en liste over nogle af de tanker jeg har haft om det.
+\begin{itemize}
+    \item Autospilleren er langsom fordi et nyt helt træ konstruereres ved hvert træk.
+    I stedet kunne roden rykkes og træet udvides.
+    \item Implementere dynamiske programmeringsmetoder.
+    \item Det er ikke nødvendigt med en liste over blade når et nyt træ laves ved hvert træk.
+    \item Autospilleren kan forbederes ved at undgå at sortere trækkene.
+    I stedet kunne man opstille mere sofistikerede regler i evalueringsfunktionen.
+    \item Encapsulating. Felterne på class instances burde have metoder til de specifikke formål.
+\end{itemize}

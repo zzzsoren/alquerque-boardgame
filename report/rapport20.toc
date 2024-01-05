@@ -6,8 +6,10 @@
 \contentsline {section}{\numberline {2}Implementering}{5}{}%
 \contentsline {subsection}{\numberline {2.1}Minimaxtræ}{5}{}%
 \contentsline {subsubsection}{\numberline {2.1.1}Node}{6}{}%
-\contentsline {subsubsection}{\numberline {2.1.2}Tree}{8}{}%
-\contentsline {subsection}{\numberline {2.2}Algoritme}{8}{}%
-\contentsline {subsection}{\numberline {2.3}Heustik}{9}{}%
-\contentsline {section}{\numberline {3}Testning}{9}{}%
-\contentsline {section}{\numberline {4}Bilag}{11}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Tree}{7}{}%
+\contentsline {subsection}{\numberline {2.2}Algoritme}{7}{}%
+\contentsline {subsection}{\numberline {2.3}Køretider}{8}{}%
+\contentsline {subsection}{\numberline {2.4}Forbedringer}{8}{}%
+\contentsline {section}{\numberline {3}Dokumentation}{8}{}%
+\contentsline {section}{\numberline {4}Konklussion}{9}{}%
+\contentsline {section}{\numberline {5}Bilag}{10}{}%

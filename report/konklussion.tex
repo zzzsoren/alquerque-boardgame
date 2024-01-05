@@ -1,17 +1,17 @@
-section{Konklussion}
-I denne rapport har jeg undersøgt og redegjordt for hvordan modulet \texttt{alquerque.py} kan implementeres
-ved at tage begrænsninger fra undermodulerne i betragning. Der er plads til at gøre det mere udførligt,
-men overordnet set er det vigtigste med. F.eks. udfordringen med at vise brættet i terminalen og
-hvorfor programmets kontrol flow styres af den valgt tilstand.
-\bigbreak
-Udfordringer:
-\begin{itemize}
-    \item En udfordring har været at bruge globale variabler, hvilken havde effekten at programmet blev mere kompleks/svært at forstå. Det kan være en fordel at gøre funktionernes parametre endnu mere specifikke. F.eks. tager nogle funktioner datatypen Board, men bruger ikke brikkernes positioner. Således kan programmet gøres mere forståligt.
-    \item En anden udfordring har været navngivningen af variabler. Det skulle være ensartet gennem hele programmet, og alle navnene skulle gøre klart hvad de betyder i deres sammenhæng. Jeg synes det lykkedes rimeligt.
-    \item En tredje udfordring, som ikke er relateret til selve projektet, er manglende feedback fra den første del af projektet.
-\end{itemize}
-Således er det lykkedes at implementere \texttt{alquerque.py}, der lever op til kravende. Rapporten introducerer og forklarer
-implementationen.
-Nu ser jeg frem til feedback,
-så jeg kan gøre det endnu bedre næste gang. Jeg vil gerne takke læseren for opmærksomheden, og håber at det været lige så fedt at læse den
-som det har været for mig at lave den.
+\section{Konklussion}
+I denne rapport har jeg undersøg og redegjort for hvordan autospiller modulet \texttt{minimax.py}
+kan implementeres. Implementationen lever ikke helt op til forventningerne. F.eks. tildeles
+alle nodes ikke værdier, men værdierne akkumeleres istedet under konstruktionen af træet.
+Det er en design fejl. Der er ikke taget højde for at at træet skal genbruges.\\
+\\
+Alle mulige træk bliver heller ikke taget i betragning. Det er et dårligt trade off.\\
+\\
+Og så måske nogle flere diagrammer i rapporten.\\
+\\
+Når det er sagt, så har det været en utrolig spændende opgave som jeg har nydt at
+arbejde med hen over jul og nytår. Jeg er nogenlunde tilfreds med navngivningen og
+læsbarheden af programmet.\\
+\\
+Således er det lykkedes at implementere \texttt{minimax.py}. Jeg håber at der er
+små forbedringer at se (\textit{især i rapporten}). Det har været en fornøjelse.
+Tak for opmærksomheden.
