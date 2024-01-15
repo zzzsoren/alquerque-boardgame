@@ -1,147 +1,178 @@
 from move import *
-from dataclasses import dataclass
+from functools import reduce
 
-EMPTY = 0
-WHITE = 1
-BLACK = 2
+# the board is represented as a list of strings with the first position (index 0) being the player turn.
+# position (index) 1-25 in the string correnspond to a position on the board.
+Board = list[str]
+SIZE = 5
+WHITE, BLACK, EMPTY = "w", "b", " "
 
-@dataclass
-class Board:
-    board: list[list[int]]
-    player: int
-
-def _row(pos: int) -> int:
-    """Row corresponding to pos."""
-    return (pos-1)//5
-
-def _col(pos:int) -> int:
-    """Column corresponding to pos."""
-    return (pos-1)%5
+def _coord(pos: int) -> tuple[int, int]:
+    """Converts a board position to coordinates (x, y).
+    >>> _coord(1)
+    (0, 0)
+    >>> _coord(24)
+    (3, 4)
+    """
+    x = (pos - 1) % SIZE
+    y = (pos - 1) // SIZE
+    return x, y
 
 def make_board() -> Board:
-    """Creates a new Alquerque board with all pieces in their starting
-        positions.
+    """Initializes a 5x5 board with 
+    Position 0: is the current player turn (white starts), 1 - 12 is black pieces, 14 - 25 is white pieces
+    >>> make_board()
+    ['w', 
+    'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b',
+    'b', 'b', ' ', 'w', 'w',
+    'w', 'w', 'w', 'w', 'w',
+    'w', 'w', 'w', 'w', 'w']
     """
-    b = [[ BLACK
-           if i <= 1 or (i == 2 and j <= 1)
-           else EMPTY if i == j == 2
-           else WHITE
-           for j in range(5)] for i in range(5)]
-    return Board(b,WHITE)
+    return ["w"] + ["b" for x in range(12)] + [" "] +  ['w' for x in range(12)]
 
 def white_plays(b: Board) -> bool:
-    """Returns whether it is white's turn."""
-    return b.player == WHITE
-
-def _other(b: Board) -> bool:
-    """The other player."""
-    return 3-b.player
-
-def _find(b: Board, v: int) -> list[int]:
-    """Returns a list with all the positions containing v."""
-    return list(
-        filter(lambda x: x != 0,
-               map(lambda i: i if b.board[_row(i)][_col(i)] == v else 0,
-                   range(1,26))))
-
-def white(b: Board) -> list[int]:
-    """Returns a list with all the positions containing white pieces in b."""
-    return _find(b,WHITE)
-
-def black(b: Board) -> list[int]:
-    """Returns a list with all the positions containing white pieces in b."""
-    return _find(b,BLACK)
-
-def _in_board(pos: int) -> bool:
-    """Checks whether a given position is within the board limits."""
-    return 1 <= pos <= 25
-
-def _legal_even(m: Move, b: Board) -> bool:
-    """Checks whether a move with legal source from an even, non-empty square
-        is legal.
+    """Determines whether it's the white players turn.
+    >>> white_plays(['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'])
+    True
+    >>> white_plays(['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'])
+    False
     """
-    sx = _row(source(m))
-    sy = _col(source(m))
-    tx = _row(target(m))
-    ty = _col(target(m))
-    if (target(m) == source(m)-5 and
-        b.board[sx][sy] == WHITE and
-        b.board[tx][ty] == EMPTY): # white moves up
-        return True
-    elif (target(m) == source(m)+5 and
-          b.board[sx][sy] == BLACK and
-          b.board[tx][ty] == EMPTY): # black moves down
-        return True
-    else: # catching move
-        return (((abs(tx-sx) == 2 and ty == sy) or
-                 (tx == sx and abs(ty-sy) == 2)) and
-                b.board[(tx+sx)//2][(ty+sy)//2] == _other(b))
-
-def _legal_odd(m: Move, b: Board) -> bool:
-    """Checks whether a move with legal source from an odd, non-empty square
-        is legal.
-    """
-    sx = _row(source(m))
-    sy = _col(source(m))
-    tx = _row(target(m))
-    ty = _col(target(m))
-    if (tx == sx-1 and abs(ty-sy) <= 1 and
-        b.board[sx][sy] == WHITE and
-        b.board[tx][ty] == EMPTY): # white moves up
-        return True
-    elif (tx == sx+1 and abs(ty-sy) <= 1 and
-          b.board[sx][sy] == BLACK and
-          b.board[tx][ty] == EMPTY): # black moves down
-        return True
-    else: # catching move
-        return (((abs(tx-sx) == 2 and ty == sy) or
-                 (tx == sx and abs(ty-sy) == 2) or
-                 (abs(tx-sx) == abs(ty-sy) == 2)) and
-                b.board[(tx+sx)//2][(ty+sy)//2] == _other(b))
+    return b[0] == "w"
 
 def is_legal(m: Move, b: Board) -> bool:
-    """Checks whether a given move is legal in a given board state."""
-    return (_in_board(source(m)) and
-            _in_board(target(m)) and
-            b.board[_row(source(m))][_col(source(m))] == b.player and
-            b.board[_row(target(m))][_col(target(m))] == EMPTY and
-            ((source(m)%2 == 0 and _legal_even(m,b)) or
-             (source(m)%2 == 1 and _legal_odd(m,b))))
+    """Determines whether a move is legal on the current board.
+    >>> b = make_board()
+    >>> is_legal((17, 13), b)
+    True
+    >>> is_legal((16, 13), b)
+    False
+    """
+    return (b[0] == b[source(m)] and b[target(m)] == EMPTY and 
+        ((source(m)%2 != 0 and _legal_odd(m, b)) or 
+         (source(m)%2 == 0 and _legal_even(m, b)) or 
+         _capture(m, b)))
 
-def legal_moves(b: Board) -> bool:
-    """Returns a list with all the legal moves from the given board state."""
-    if b.player == WHITE:
-        sources = white(b)
-    else:
-        sources = black(b)
-    moves = []
-    for s in sources:
-        targets = filter(lambda t: is_legal(make_move(s,t),b),
-                         range(1,26))
-        for t in targets:
-            moves.append(make_move(s,t))
-    return moves
+def _legal_even(m: Move, b: Board) -> bool:
+    """Determines whether a move is legal on an even position on the current board.
+    >>> b = make_board()
+    >>> _legal_even((18,13), b)
+    True
+    >>> _legal_even((16,13), b)
+    False
+    """
+    sx, sy = _coord(source(m))
+    tx, ty = _coord(target(m))
+    # W rykker en op eller B rykker 1 ned
+    return (abs(sx - tx) == 0 and 
+            ((b[0] == WHITE and ty - sy == -1) or 
+             (b[0] == BLACK and ty - sy == 1)))
+
+def _legal_odd(m: Move, b: Board) -> bool:
+    """"Determines whether a move is legal on an odd position on the current board.
+    >>> b = make_board()
+    >>> _legal_odd((17,13), b)
+    True
+    >>> _legal_odd((23,13), b)
+    False 
+    """
+    sx, sy = _coord(source(m))
+    tx, ty = _coord(target(m))
+    # 1 sidelens højst
+    # W rykker 1 op eller B rykker 1 ned
+    return (abs(sx - tx) <= 1 and 
+            ((b[0] == WHITE and ty - sy == -1) or
+             (b[0] == BLACK and ty - sy == 1)))
+
+def _capture(m: Move, b: Board):
+    """Determines whether a move is a valid capture on the current board.
+    ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+    >>> _capture((8, 18), b)
+    True
+    ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'w', ' ', 'w', 'w', 'w', 'w', 'w']
+    >>> _capture((18, 20), b)
+    True
+    ['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'b', ' ', 'w', 'w', 'w', 'w', 'w']
+    >>> _capture((25, 13), b)
+    True
+    """
+    sx, sy = _coord(source(m))
+    tx, ty = _coord(target(m))
+    # 2 op/ned
+    # 2 sidelens
+    # 2op/ned og 2sidelens
+    # Mellempositionen ejet at modstander
+    return ((abs(tx - sx) == 0 and abs(ty - sy) == 2 or 
+             abs(tx - sx) == 2 and abs(ty - sy) == 0 or 
+             source(m)%2 != 0 and abs(tx - sx) == 2 and abs(ty - sy) == 2) and
+            b[(source(m) + target(m))//2] == _enemy(b))
+
+def _is_capture(m: Move) -> bool:
+    """Determines whether a move is a capture on the current board.
+    >>> _is_capture((25, 15))
+    True
+    >>> _is_capture((25, 13))
+    True
+    >>> _is_capture((25, 19))
+    False
+    >>> _is_capture((25, 20))
+    False
+    """
+    sx, sy = _coord(source(m))
+    tx, ty = _coord(target(m))
+    return abs(ty - sy) > 1 or abs(tx - sx) > 1
+
+def _enemy(b: Board) -> str:
+    """Returns the players enemy."""
+    return "b" if b[0] == "w" else "w"
+
+def legal_moves(b: Board) -> list[Move]:
+    """Finds all legal moves for the current player on the current board.
+    >>> b = make_board()
+    >>> legal_moves(b)
+    [(17, 13), (18, 13), (19, 13)]
+    """
+    positions = white(b) if white_plays(b) else black(b)
+    return [(p, t) for p in positions for t in range(1, 26) if is_legal((p, t), b)]
+
+def white(b: Board) -> list[int]:
+    """Returns the positions of the white pieces on the board.
+    ['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'b', ' ', 'w', 'w', 'w', 'w', 'w']
+    >>> white(b)
+    [0, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25]
+    """
+    return [i for i, x in enumerate(b) if x == "w" and i != 0]
+
+def black(b: Board) -> list[int]:
+    """Returns the positions of the black pieces on the board.
+    ['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'b', ' ', 'w', 'w', 'w', 'w', 'w']
+    >>> black(b)
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
+    """
+    return [i for i, x in enumerate(b) if x == "b" and i != 0]
 
 def move(m: Move, b: Board) -> None:
-    """Performs a given move. Requires is_legal(m)."""
-    sx = _row(source(m))
-    sy = _col(source(m))
-    tx = _row(target(m))
-    ty = _col(target(m))
-    # update the piece's position
-    b.board[sx][sy] = EMPTY
-    b.board[tx][ty] = b.player
-    # remove piece jumped over
-    if abs(sx-tx) > 1 or abs(sy-ty) > 1:
-        b.board[(sx+tx)//2][(sy+ty)//2] = EMPTY
-    # switch between WHITE (1) and BLACK (2)
-    b.player = _other(b)
+    """Simulates the move on the board
+    ['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+    >>> move((18, 13), b)
+    >>> b
+    ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', 'w', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+
+    """
+    b[source(m)] = EMPTY
+    b[target(m)] = b[0]
+    if _is_capture(m):
+        b[(source(m) + target(m))//2] = EMPTY
+    b[0] = _enemy(b)
 
 def is_game_over(b: Board) -> bool:
-    """Checks whether the game is over."""
+    """Determines whether the game is over"""
     return legal_moves(b) == []
 
 def copy(b: Board) -> Board:
-    """Returns a deep copy of b."""
-    new_board = [[ b.board[i][j] for j in range(5)] for i in range(5)]
-    return Board(new_board,b.player)
+    """Copies the board
+    >>> b = make_board()
+    >>> copy_board(b)
+    ['w', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+    """
+    return [x for x in b]
