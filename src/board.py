@@ -29,7 +29,7 @@ def make_board() -> Board:
     'w', 'w', 'w', 'w', 'w',
     'w', 'w', 'w', 'w', 'w']
     """
-    return ["w"] + ["b" for x in range(12)] + [" "] +  ['w' for x in range(12)]
+    return [WHITE] + [BLACK for x in range(12)] + [EMPTY] +  [WHITE for x in range(12)]
 
 def white_plays(b: Board) -> bool:
     """Determines whether it's the white players turn.
@@ -38,7 +38,7 @@ def white_plays(b: Board) -> bool:
     >>> white_plays(['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'w', 'w', 'w', 'w', ' ', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'])
     False
     """
-    return b[0] == "w"
+    return b[0] == WHITE
 
 def is_legal(m: Move, b: Board) -> bool:
     """Determines whether a move is legal on the current board.
@@ -63,7 +63,6 @@ def _legal_even(m: Move, b: Board) -> bool:
     """
     sx, sy = _coord(source(m))
     tx, ty = _coord(target(m))
-    # W rykker en op eller B rykker 1 ned
     return (abs(sx - tx) == 0 and 
             ((b[0] == WHITE and ty - sy == -1) or 
              (b[0] == BLACK and ty - sy == 1)))
@@ -78,8 +77,6 @@ def _legal_odd(m: Move, b: Board) -> bool:
     """
     sx, sy = _coord(source(m))
     tx, ty = _coord(target(m))
-    # 1 sidelens højst
-    # W rykker 1 op eller B rykker 1 ned
     return (abs(sx - tx) <= 1 and 
             ((b[0] == WHITE and ty - sy == -1) or
              (b[0] == BLACK and ty - sy == 1)))
@@ -98,10 +95,6 @@ def _capture(m: Move, b: Board):
     """
     sx, sy = _coord(source(m))
     tx, ty = _coord(target(m))
-    # 2 op/ned
-    # 2 sidelens
-    # 2op/ned og 2sidelens
-    # Mellempositionen ejet at modstander
     return ((abs(tx - sx) == 0 and abs(ty - sy) == 2 or 
              abs(tx - sx) == 2 and abs(ty - sy) == 0 or 
              source(m)%2 != 0 and abs(tx - sx) == 2 and abs(ty - sy) == 2) and
@@ -124,7 +117,7 @@ def _is_capture(m: Move) -> bool:
 
 def _enemy(b: Board) -> str:
     """Returns the players enemy."""
-    return "b" if b[0] == "w" else "w"
+    return BLACK if white_plays(b) else WHITE
 
 def legal_moves(b: Board) -> list[Move]:
     """Finds all legal moves for the current player on the current board.
@@ -141,7 +134,7 @@ def white(b: Board) -> list[int]:
     >>> white(b)
     [0, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25]
     """
-    return [i for i, x in enumerate(b) if x == "w" and i != 0]
+    return [i for i, x in enumerate(b) if x == WHITE and i != 0]
 
 def black(b: Board) -> list[int]:
     """Returns the positions of the black pieces on the board.
@@ -149,7 +142,7 @@ def black(b: Board) -> list[int]:
     >>> black(b)
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
     """
-    return [i for i, x in enumerate(b) if x == "b" and i != 0]
+    return [i for i, x in enumerate(b) if x == BLACK and i != 0]
 
 def move(m: Move, b: Board) -> None:
     """Simulates the move on the board
