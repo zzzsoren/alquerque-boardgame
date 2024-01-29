@@ -6,7 +6,7 @@ def next_move(b: Board, n: int = 3) -> Move:
     tree = make_tree(b, n)
     best_value = minmax(tree.root.children[0], tree.root.is_white)
     best_path = tree.root.children[0]
-    for i in range(tree.root.children):
+    for i in range(1, len(tree.root.children)):
         value = minmax(tree.root.children[i], tree.root.is_white)
         if  value > best_value:
             best_path = tree.root.children[i]
@@ -26,20 +26,19 @@ class Tree:
 
 def make_tree(board: Board, height: int) -> Tree:
     root = Node(board, [], None, white_plays(board))
-    tree = Tree(root)
-    expand(root)
-    _make_tree(root, height)
-    return tree
+    add_nodes(root)
+    grow_tree(root, height)
+    return Tree(root)
 
-def _make_tree(node: Node, height: int):
+def grow_tree(node: Node, height: int):
     if height == 0 or node.children == []:
         return
     else:
         for child in node.children:
-            expand(child)
-            _make_tree(child, height - 1)
+            add_nodes(child)
+            grow_tree(child, height - 1)
 
-def expand(node: Node) -> list[Node]:
+def add_nodes(node: Node) -> list[Node]:
     for m in legal_moves(node.board):
         new = copy(node.board)
         move(m, new)
